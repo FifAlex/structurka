@@ -1,4 +1,4 @@
-# structurka
+# Laba1
 
 import random
 import time
