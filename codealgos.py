@@ -1,11 +1,31 @@
 import random
 import time
+import tracemalloc
 
-def measure_time(func, data):
+def measure_time(func, arr):
     start = time.perf_counter()
-    func(data)
+    func(arr)
     end = time.perf_counter()
     return end - start
+
+def measure_time2(func, arr, arg):
+    start = time.perf_counter()
+    func(arr, arg)
+    end = time.perf_counter()
+    return end - start
+
+def measure_time3(func, arr, arg1, arg2):
+    start = time.perf_counter()
+    func(arr, arg1, arg2)
+    end = time.perf_counter()
+    return end - start
+
+def measure_ram(func, arr, arg1, arg2):
+    tracemalloc.start()
+    func(arr, arg1, arg2)
+    current, peak = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+    return peak / 1024
 
 def generate_array(n):
     arr = []
@@ -13,7 +33,7 @@ def generate_array(n):
         arr.append(random.randint(0, 10000))
     return arr
 
-arr_ex = generate_array(30)
+arr_ex = generate_array(3000)
 s = random.randint(0, 10000)
 
 #Задание 1
@@ -42,7 +62,6 @@ def secondmax(arr):
 #Задание 3
 def binary_search(n, arr):
     arr = sorted(arr)
-    print(arr)
     low = 0
     high = len(arr) - 1
     mid = int
@@ -88,3 +107,12 @@ def quicksort(arr, low, high):
         pi = partition(arr, low, high)
         quicksort(arr, low, pi-1)
         quicksort(arr, pi+1, high)
+
+
+if __name__ == '__main__':
+    sizes = [100, 500, 750, 1000]
+    for n in sizes:
+        arr = generate_array(n)
+        t = measure_time3(quicksort, arr, 0, n-1)
+        ram = measure_ram(quicksort, arr, 0, n-1) #для пятого задания
+        print(n, t, ram)
