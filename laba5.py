@@ -50,18 +50,20 @@ def postorder(root, result = None):
         result.append(root.value)
     return result
 
-def check_symmetry(node):
-    tree = inorder(node)
-    i = 0
-    j = len(tree) - 1
-    while i != j:
-        if tree[i] != tree[j]:
-            return False
-        i += 1
-        j -= 1
-    return True
+def check_symmetry(node=None):
+    if node == None:
+        return True
+    return is_mirror(node.left, node.right)
 
-def bfs(root):
+def is_mirror(nodeleft, noderight):
+    if nodeleft is None and noderight is None:
+        return True
+    elif nodeleft is None or noderight is None:
+        return False
+    
+    return (nodeleft == noderight and is_mirror(nodeleft.left, noderight.right) and is_mirror(nodeleft.right, noderight.left))
+
+def level_to_order(root):
     result = []
     if root is None:
         return result
@@ -121,8 +123,10 @@ if __name__ == "__main__":
                     while B:
                         print("Введите в какое поддерево хотите добавить узел (l или r)")
                         v2 = input("")
+                        assert curr != None
                         match v2:
                             case "l":
+                                
                                 if not curr.left:
                                     print("Мы дошли до свободного узла. Введите его значение")
                                     value = int(input(""))
@@ -184,7 +188,7 @@ if __name__ == "__main__":
                     print("Введите название дерева")
                     nametree = input("")
                 koren = trees.getTree(nametree)
-                print(bfs(koren))
+                print(level_to_order(koren))
 
             case _:
                 print("Покедова")
