@@ -65,7 +65,7 @@ def binary_search(n, arr):
     low = 0
     high = len(arr) - 1
     mid = int
-    while n in arr:
+    while n in arr and low <= high:
         mid = (low + high) // 2
         if arr[mid] < n:
             low = mid
