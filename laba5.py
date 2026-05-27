@@ -61,7 +61,7 @@ def is_mirror(nodeleft, noderight):
     elif nodeleft is None or noderight is None:
         return False
     
-    return (nodeleft == noderight and is_mirror(nodeleft.left, noderight.right) and is_mirror(nodeleft.right, noderight.left))
+    return (nodeleft.value == noderight.value and is_mirror(nodeleft.left, noderight.right) and is_mirror(nodeleft.right, noderight.left))
 
 def level_to_order(root):
     result = []
